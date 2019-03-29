@@ -50,6 +50,10 @@ addons:
 jobs:
   include:
   - env:
+    - T=docker
+    services:
+      - docker
+  - env:
     - T=normal C="--with-gssapi --with-libssh2" CHECKSRC=1
     - OVERRIDE_CC="CC=gcc-8" OVERRIDE_CXX="CXX=g++-8"
     addons:

@@ -65,6 +65,10 @@ if [ "$T" = "debug-mesalink" ]; then
   make "TFLAGS=-n !313 !3001" test-nonflaky
 fi
 
+if [ "$T" = "docker" ]; then
+  docker build --no-cache --rm -t "curl:latest" .
+fi
+
 if [ "$T" = "novalgrind" ]; then
   ./configure --enable-werror $C
   make
