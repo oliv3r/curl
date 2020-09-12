@@ -323,7 +323,8 @@ To post to this, you enter a curl command line like:
 
 While `-d` uses the application/x-www-form-urlencoded mime-type, generally
 understood by CGI's and similar, curl also supports the more capable
-multipart/form-data type. This latter type supports things like file upload.
+multipart/form-data type and application/json with `-dj`. This latter type
+supports things like file upload.
 
 `-F` accepts parameters like `-F "name=contents"`. If you want the contents to
 be read from a file, use `@filename` as contents. When specifying a file, you

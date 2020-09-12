@@ -2479,6 +2479,31 @@ CURL_EXTERN char *curl_unescape(const char *string,
                                 int length);
 
 /*
+ * NAME curl_json_escape()
+ *
+ * DESCRIPTION
+ *
+ * Escapes JSON strings (converts all letters consider illegal in JSON to their
+ * escaped versions), except the double-quote character.
+ * This function returns a new allocated string or NULL if an error occurred.
+ */
+CURL_EXTERN char *curl_json_escape(const char *string,
+                                   const unsigned int length);
+
+/*
+ * NAME curl_json_unescape()
+ *
+ * DESCRIPTION
+ *
+ * Unescapes JSON strings (converts all escaped letters to their 8bit
+ * versions), except the double-quote character.
+ * This function returns a new allocated string or NULL if an error occurred.
+ */
+CURL_EXTERN char *curl_json_unescape(const char *string,
+                                     const unsigned int length,
+                                     unsigned int *outlength);
+
+/*
  * NAME curl_free()
  *
  * DESCRIPTION

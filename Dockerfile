@@ -18,9 +18,14 @@ RUN \
        autoconf \
        automake \
        build-base \
+       brotli-dev \
        curl-dev \
        groff \
+       libpsl-dev \
+       libssh2-dev \
        libtool \
+       rtmpdump-dev \
+       zstd-dev \
     && \
     rm -rf "/var/cache/apk/"*
 
@@ -41,6 +46,7 @@ RUN \
         --without-libidn2 \
     && \
     make && \
+    make test && \
     make DESTDIR="/alpine/" install
 
 # For Alpine, latest is actually the latest stable

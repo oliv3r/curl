@@ -26,6 +26,7 @@
 #include "curl_setup.h"
 
 #include <curl/curl.h>
+#include <stdint.h>
 
 #include "urldata.h"
 #include "warnless.h"
@@ -235,6 +236,54 @@ char *curl_easy_unescape(struct Curl_easy *data, const char *string,
     }
   }
   return str;
+}
+
+char *curl_json_unescape(const char *string, const unsigned int inlength,
+                         unsigned int *outlength)
+{
+  return NULL;
+}
+
+char *curl_json_escape(const char *string, const unsigned int inlength)
+{
+  struct dynbuf buf;
+  size_t length;
+
+  if (inlength > SIZE_MAX)
+    return NULL;
+
+  Curl_dyn_init(&buf, CURL_MAX_INPUT_LENGTH);
+
+  length = (inlength ? (size_t)inlength : strlen(string));
+  if(!length)
+    return strdup("");
+
+  while(length--) {
+    char escaped[sizeof("\\uFFFF")] = { '\0' };
+
+    /*
+     * In rfc8259 it says that characters U+0000 through U+001F plus the
+     * reverse solidus and the double quote character are to be escaped.
+     * As we do not know if we are inside of a string, we do not escape the
+     * double quote, as it is reasonably common to escape double quotes anyway.
+     * '{"name", "Daniel \"cURL\" Stenberg"}'
+     * vs
+     * '{"name", "Daniel "cURL" Stenberg"}'
+     * Single quote does not have to be escaped as this is only used with
+     * </script> and is out of scope here.
+     */
+    if (((*string >= 0x00) && (*string <= 0x1f)) || (*(string++) == '\\')) {
+      if ((length > 1) && (*(string++) == '\"'))
+        msnprintf(escaped, sizeof("\\\""), "\\\"");
+      else
+        msnprintf(escaped, sizeof(escaped), "\\u%04X", *string);
+    }
+
+    if(Curl_dyn_add(&buf, escaped))
+      return NULL;
+  }
+
+  return Curl_dyn_ptr(&buf);
 }
 
 /* For operating systems/environments that use different malloc/free

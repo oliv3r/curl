@@ -3,7 +3,7 @@ Short: d
 Arg: <data>
 Help: HTTP POST data
 Protocols: HTTP MQTT
-See-also: data-binary data-urlencode data-raw
+See-also: data-binary data-json data-urlencode data-raw
 Mutexed: form head upload-file
 Category: important http post upload
 ---
@@ -14,8 +14,9 @@ content-type application/x-www-form-urlencoded.  Compare to --form.
 
 --data-raw is almost the same but does not have a special interpretation of
 the @ character. To post data purely binary, you should instead use the
---data-binary option.  To URL-encode the value of a form field you may use
---data-urlencode.
+--data-binary option. When dealing with JSON data, use --data-json to ensure
+all characters properly escaped. To URL-encode the value of a form field you
+may use --data-urlencode.
 
 If any of these options is used more than once on the same command line, the
 data pieces specified will be merged together with a separating

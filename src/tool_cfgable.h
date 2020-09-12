@@ -61,6 +61,7 @@ struct OperationConfig {
   bool cookiesession;       /* new session? */
   bool encoding;            /* Accept-Encoding please */
   bool tr_encoding;         /* Transfer-Encoding please */
+  bool json_content;        /* Content-Type: application/json please */
   unsigned long authtype;   /* auth bitmask */
   bool use_resume;
   bool resume_from_current;

@@ -1,0 +1,67 @@
+.\" **************************************************************************
+.\" *                                  _   _ ____  _
+.\" *  Project                     ___| | | |  _ \| |
+.\" *                             / __| | | | |_) | |
+.\" *                            | (__| |_| |  _ <| |___
+.\" *                             \___|\___/|_| \_\_____|
+.\" *
+.\" * Copyright (C) 1998 - 2020, Daniel Stenberg, <daniel@haxx.se>, et al.
+.\" *
+.\" * This software is licensed as described in the file COPYING, which
+.\" * you should have received as part of this distribution. The terms
+.\" * are also available at https://curl.haxx.se/docs/copyright.html.
+.\" *
+.\" * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+.\" * copies of the Software, and permit persons to whom the Software is
+.\" * furnished to do so, under the terms of the COPYING file.
+.\" *
+.\" * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+.\" * KIND, either express or implied.
+.\" *
+.\" **************************************************************************
+.\"
+.TH curl_json_escape 3 "16 Sept 2020" "libcurl 7.74.0" "libcurl Manual"
+.SH NAME
+curl_json_escape - JSON escapes the given string
+.SH SYNOPSIS
+.B #include <curl/curl.h>
+.sp
+.BI "char *curl_json_escape(const char *" string
+.BI ", const unsigned int "length ");"
+.ad
+.SH DESCRIPTION
+This function converts the given input \fIstring\fP to a JSON escaped string
+and returns that as a new allocated string. As per JSON spec, the reverse
+solidus (backslash) and all ASCII control characters (0 - 31) will be escaped.
+The double quotation mark should be escaped, but as this cannot be determined
+if the quotation mark is a json symbol or part of the string, it is up to the
+caller to properly escape this. This may change in the future. Escaping is
+being done by replacing these characters with their escaped equivalents.
+
+If \fIlength\fP is set to 0 (zero), \fIcurl_json_escape(3)\fP uses strlen() on
+the input \fIstring\fP to find out the size.
+
+The returned string must freed using \fIcurl_free(3)\fP after use.
+.SH ENCODING
+libcurl is typically not aware of, nor does it care about, character
+encodings. \fIcurl_json_escape(3)\fP encodes the data byte-by-byte into the
+JSON escaped version without knowledge or care for what particular character
+encoding the application or the receiving server may assume that the data
+uses.
+
+The caller of \fIcurl_json_escape(3)\fP must make sure that the data passed in
+to the function is encoded correctly.
+.SH AVAILABILITY
+Added in 7.74.0
+.SH RETURN VALUE
+A pointer to a null-terminated string or NULL if it failed.
+.SH EXAMPLE
+.nf
+char *output = curl_json_escape("data\\nto\\nconvert", 15);
+ if(output) {
+   printf("Encoded: %s\\n", output);
+   curl_free(output);
+}
+.fi
+.SH "SEE ALSO"
+.BR curl_json_unescape "(3), " curl_free "(3), " RFC 8259

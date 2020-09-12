@@ -492,7 +492,7 @@ FAQ
   If the form you're trying to submit uses the type 'multipart/form-data', then
   and only then you must use the -F type. In all the most common cases, you
   should use -d which then causes a posting with the type
-  'application/x-www-form-urlencoded'.
+  'application/x-www-form-urlencoded' or 'applicatoin/json' with -dj.
 
   This is described in some detail in the MANUAL and TheArtOfHttpScripting
   documents, and if you don't understand it the first time, read it again
