@@ -3,7 +3,7 @@ Short: d
 Arg: <data>
 Help: HTTP POST data
 Protocols: HTTP
-See-also: data-binary data-urlencode data-raw
+See-also: data-binary data-json data-urlencode data-raw
 Mutexed: form head upload-file
 ---
 Sends the specified data in a POST request to the HTTP server, in the same way
@@ -15,6 +15,9 @@ content-type application/x-www-form-urlencoded.  Compare to --form.
 the @ character. To post data purely binary, you should instead use the
 --data-binary option.  To URL-encode the value of a form field you may use
 --data-urlencode.
+
+When the data is a JSON blob, use --data-json to ensure all characters
+needing to be escaped are.
 
 If any of these options is used more than once on the same command line, the
 data pieces specified will be merged together with a separating

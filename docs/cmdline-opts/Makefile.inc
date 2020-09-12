@@ -22,6 +22,7 @@ DPAGES =					\
   crlf.d crlfile.d				\
   data-ascii.d					\
   data-binary.d					\
+  data-json.d					\
   data-urlencode.d				\
   data.d data-raw.d				\
   delegation.d					\
