@@ -227,6 +227,7 @@ static const struct LongShort aliases[]= {
   {"da", "data-ascii",               ARG_STRING},
   {"db", "data-binary",              ARG_STRING},
   {"de", "data-urlencode",           ARG_STRING},
+  {"dj", "data-json",                ARG_STRING},
   {"D",  "dump-header",              ARG_FILENAME},
   {"e",  "referer",                  ARG_STRING},
   {"E",  "cert",                     ARG_FILENAME},
@@ -1417,6 +1418,10 @@ ParameterError getparameter(const char *flag, /* f or -long-flag */
           else
             return PARAM_NO_MEM;
         }
+      }
+      else if ('j' == subletter) { /* --data-json */
+        printf("nextarg: '%s'\n", nextarg);
+        return PARAM_NO_MEM;
       }
       else if('@' == *nextarg && !raw_mode) {
         /* the data begins with a '@' letter, it means that a file name

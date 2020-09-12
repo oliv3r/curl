@@ -5,7 +5,7 @@
 
 # For Alpine, latest is actually the latest stable
 # hadolint ignore=DL3007
-FROM registry.hub.docker.com/library/alpine:latest AS builder
+FROM registry.hub.docker.com/library/alpine:latest AS alpine-builder
 
 LABEL Maintainer="Olliver Schinagl <oliver@schinagl.nl>"
 
@@ -18,9 +18,14 @@ RUN \
        autoconf \
        automake \
        build-base \
+       brotli-dev \
        curl-dev \
        groff \
+       libpsl-dev \
+       libssh2-dev \
        libtool \
+       rtmpdump-dev \
+       zstd-dev \
     && \
     rm -rf "/var/cache/apk/"*
 
@@ -41,7 +46,7 @@ RUN \
         --without-libidn2 \
     && \
     make && \
-    make DESTDIR="/alpine/" install
+    make DESTDIR="/builder/" install
 
 # For Alpine, latest is actually the latest stable
 # hadolint ignore=DL3007
@@ -49,19 +54,17 @@ FROM registry.hub.docker.com/library/alpine:latest
 
 RUN \
     apk add --no-cache \
-        curl \
+       brotli-libs \
+       libpsl \
+       librtmp \
+       libssh2 \
+       nghttp2-libs \
+       zstd-libs \
     && \
-    rm -rf "/var/cache/apk/"* && \
-    for curlfile in $(apk info -L curl libcurl); do \
-        if [ -f "/${curlfile}" ]; then \
-            rm "/${curlfile:?}"; \
-        fi \
-    done
+    rm -rf "/var/cache/apk/"*
 
-COPY --from=builder "/alpine/usr/lib/libcurl.so.4.5.0" "/usr/lib/libcurl.so.4.5.0"
-COPY --from=builder "/alpine/usr/lib/libcurl.so.4" "/usr/lib/libcurl.so.4"
-COPY --from=builder "/alpine/usr/lib/libcurl.so" "/usr/lib/libcurl.so"
-COPY --from=builder "/alpine/usr/bin/curl" "/usr/bin/curl"
+COPY --from=alpine-builder "/builder/usr/bin/" "/usr/bin/"
+COPY --from=alpine-builder "/builder/usr/lib/libcurl.so.*" "/usr/lib/"
 
 COPY "scripts/docker-entrypoint.sh" "/docker-entrypoint.sh"
 

@@ -342,6 +342,10 @@ The Art Of Scripting HTTP Requests Using Curl
 
         curl --data-urlencode "name=I am Daniel" http://www.example.com
 
+  Likewise, when wanting to POST JSON escaped data, curl can do this too:
+
+        curl --data-json "{ "name": "I am Daniel\nhttp://www.example.com"}"
+
   If you repeat --data several times on the command line, curl will
   concatenate all the given data pieces - and put a '&' symbol between each
   data segment.

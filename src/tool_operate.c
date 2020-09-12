@@ -1388,6 +1388,14 @@ static CURLcode single_transfer(struct GlobalConfig *global,
         if(config->authtype)
           my_setopt_bitmask(curl, CURLOPT_HTTPAUTH, (long)config->authtype);
 
+        if(config->json_content) {
+          char *header = NULL;
+
+          header = aprintf("Content-Type: application/json");
+          add2list(&config->headers, header);
+
+          Curl_safefree(header);
+        }
         my_setopt_slist(curl, CURLOPT_HTTPHEADER, config->headers);
 
         if(built_in_protos & (CURLPROTO_HTTP | CURLPROTO_RTSP)) {

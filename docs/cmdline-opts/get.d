@@ -3,10 +3,10 @@ Short: G
 Help: Put the post data in the URL and use GET
 Category: http upload
 ---
-When used, this option will make all data specified with --data, --data-binary
-or --data-urlencode to be used in an HTTP GET request instead of the POST
-request that otherwise would be used. The data will be appended to the URL
-with a '?' separator.
+When used, this option will make all data specified with --data, --data-binary,
+--data-json or --data-urlencode to be used in an HTTP GET request instead of
+the POST request that otherwise would be used. The data will be appended to the
+URL with a '?' separator.
 
 If used in combination with --head, the POST data will instead be appended to
 the URL with a HEAD request.
